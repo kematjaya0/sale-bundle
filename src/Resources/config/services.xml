@@ -4,6 +4,7 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
         <defaults public="false" />
+        <service id="doctrine.orm.default_entity_manager" class="Doctrine\ORM\EntityManager"/>
         <service id="Kematjaya\SaleBundle\Service\SaleService" class="Kematjaya\SaleBundle\Service\SaleService">
             <argument type="service" id="doctrine.orm.default_entity_manager" />
             <argument type="service" id="kematjaya.stock_service" />
@@ -12,15 +13,19 @@
         <service id="Kematjaya\SaleBundle\Repo\SaleRepoInterface" alias="kematjaya.sale_repo" public="true"/>
         <service id="Kematjaya\SaleBundle\Repo\SaleItemRepoInterface" alias="kematjaya.sale_item_repo" public="true"/>
         <service id="Kematjaya\SaleBundle\Repo\CustomerRepoInterface" alias="kematjaya.customer_repo" public="true"/>
+        
         <service id="Kematjaya\SaleBundle\EventSubscriber\SaleEventSubscriber" class="Kematjaya\SaleBundle\EventSubscriber\SaleEventSubscriber">
             <argument type="service" id="kematjaya.sale_service" />
             <tag name="doctrine.event_listener" event="onFlush"/>
         </service>
+        <service id="kematjaya.sale_event_subscriber" alias="Kematjaya\SaleBundle\EventSubscriber\SaleEventSubscriber" public="true"/>
+        
         <service id="Kematjaya\SaleBundle\EventSubscriber\SaleItemFormEventSubscriber" class="Kematjaya\SaleBundle\EventSubscriber\SaleItemFormEventSubscriber"></service>
         <service id="Kematjaya\SaleBundle\EventSubscriber\SaleFormEventSubscriber" class="Kematjaya\SaleBundle\EventSubscriber\SaleFormEventSubscriber">
             <argument type="service" id="property_info" />
             <argument type="service" id="security.token_storage" />
         </service>
+        
         <service id="Kematjaya\SaleBundle\Form\Type\HiddenDateTimeType" class="Kematjaya\SaleBundle\Form\Type\HiddenDateTimeType">
             <tag name="form.type"/>
         </service>
