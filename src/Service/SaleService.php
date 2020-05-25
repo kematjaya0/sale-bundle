@@ -42,7 +42,7 @@ class SaleService
     
     public function update(SaleInterface $entity)
     {
-        
+        $propertyChange = [];
         if($entity->getIsLocked())
         {
             $subTotal = 0;
@@ -66,9 +66,8 @@ class SaleService
             $entity->setSubTotal($subTotal);
             $entity->setTotal($total);
             
-            
+            return $this->doPersist($entity, $propertyChange);
         }
         
-        return $this->doPersist($entity, $propertyChange);
     }
 }

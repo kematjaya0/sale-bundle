@@ -14,11 +14,13 @@
         <service id="Kematjaya\SaleBundle\Repo\CustomerRepoInterface" alias="kematjaya.customer_repo" public="true"/>
         <service id="Kematjaya\SaleBundle\EventSubscriber\SaleEventSubscriber" class="Kematjaya\SaleBundle\EventSubscriber\SaleEventSubscriber">
             <argument type="service" id="kematjaya.sale_service" />
+            <tag name="doctrine.event_listener" event="onFlush"/>
         </service>
-        <!--<service id="Kematjaya\SaleBundle\EventSubscriber\SaleFormEventSubscriber" class="Kematjaya\SaleBundle\EventSubscriber\SaleFormEventSubscriber">
+        <service id="Kematjaya\SaleBundle\EventSubscriber\SaleItemFormEventSubscriber" class="Kematjaya\SaleBundle\EventSubscriber\SaleItemFormEventSubscriber"></service>
+        <service id="Kematjaya\SaleBundle\EventSubscriber\SaleFormEventSubscriber" class="Kematjaya\SaleBundle\EventSubscriber\SaleFormEventSubscriber">
             <argument type="service" id="property_info" />
-        </service>-->
-        <service id="Kematjaya\SaleBundle\EventSubscriber\SaleEventSubscriber\SaleItemFormEventSubscriber" class="Kematjaya\SaleBundle\EventSubscriber\SaleEventSubscriber\SaleItemFormEventSubscriber"></service>
+            <argument type="service" id="security.token_storage" />
+        </service>
         <service id="Kematjaya\SaleBundle\Form\Type\HiddenDateTimeType" class="Kematjaya\SaleBundle\Form\Type\HiddenDateTimeType">
             <tag name="form.type"/>
         </service>
