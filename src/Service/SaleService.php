@@ -4,45 +4,23 @@ namespace Kematjaya\SaleBundle\Service;
 
 use Kematjaya\SaleBundle\Entity\SaleInterface;
 use Kematjaya\SaleBundle\Entity\SaleItemInterface;
+use Kematjaya\SaleBundle\Repo\SaleRepoInterface;
 use Kematjaya\ItemPack\Service\StockServiceInterface;
-use Doctrine\ORM\EntityManagerInterface;
 /**
  * @author Nur Hidayatullah <kematjaya0@gmail.com>
  */
 class SaleService 
 {
-    protected $entityManager, $stockService;
+    protected $saleRepo, $stockService;
     
-    function __construct(EntityManagerInterface $entityManager, StockServiceInterface $stockService) 
+    function __construct(SaleRepoInterface $saleRepo, StockServiceInterface $stockService) 
     {
-        $this->entityManager = $entityManager;
+        $this->saleRepo = $saleRepo;
         $this->stockService = $stockService;
-    }
-    
-    protected function doPersist($entity, ?array $propertyChange)
-    {
-        $uow = $this->entityManager->getUnitOfWork();
-        if(!empty($propertyChange))
-        {
-            foreach($propertyChange as $k => $v)
-            {
-                $uow->propertyChanged($entity, $k, $v[0], $v[1]);
-            }
-            
-        }
-        $this->entityManager->persist($entity);
-        if(empty($propertyChange))
-        {
-            $classMetadata = $this->entityManager->getClassMetadata(get_class($entity));
-            $uow->computeChangeSet($classMetadata, $entity);
-        }
-        
-        return $entity;
     }
     
     public function update(SaleInterface $entity)
     {
-        $propertyChange = [];
         if($entity->getIsLocked())
         {
             $subTotal = 0;
@@ -52,21 +30,17 @@ class SaleService
                 if($saleItem instanceof SaleItemInterface)
                 {
                     $subTotal += $saleItem->getTotal();
-                    //$this->stockService->updateStock($purchaseDetail->getItem(), $purchaseDetail->getQuantity(), $purchaseDetail->getPackaging());
+                    $this->stockService->getStock($saleItem->getItem(), $saleItem->getQuantity());
                 }
             }
-            //dump($saleItem);exit;
-            $total = $subTotal + $entity->getTax();
             
-            $uow = $this->entityManager->getUnitOfWork();
-            $propertyChange = $uow->getEntityChangeSet($entity);
-            $propertyChange['sub_total'] = [$entity->getSubTotal(), $subTotal];
-            $propertyChange['total'] = [$entity->getTotal(), $total];
+            $total = $subTotal + $entity->getTax();
             
             $entity->setSubTotal($subTotal);
             $entity->setTotal($total);
             
-            return $this->doPersist($entity, $propertyChange);
+            $this->saleRepo->save($entity);
+            return $entity;
         }
         
     }

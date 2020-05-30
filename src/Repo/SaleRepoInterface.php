@@ -10,4 +10,6 @@ use Doctrine\Common\Persistence\ObjectRepository;
 interface SaleRepoInterface extends ObjectRepository 
 {
     public function createSale():SaleInterface;
+    
+    public function save(SaleInterface $sale): void;
 }

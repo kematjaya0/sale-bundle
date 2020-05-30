@@ -11,4 +11,6 @@ use Doctrine\Common\Persistence\ObjectRepository;
 interface SaleItemRepoInterface extends ObjectRepository 
 {
     public function createSaleItem(SaleInterface $sale):SaleItemInterface;
+    
+    public function save(SaleItemInterface $saleItem): void;
 }
