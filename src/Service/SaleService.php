@@ -39,9 +39,9 @@ class SaleService
             $entity->setSubTotal($subTotal);
             $entity->setTotal($total);
             
-            $this->saleRepo->save($entity);
-            return $entity;
         }
         
+        $this->saleRepo->save($entity);
+        return $entity;
     }
 }
