@@ -12,6 +12,7 @@
         <service id="Kematjaya\SaleBundle\Service\SaleService" class="Kematjaya\SaleBundle\Service\SaleService">
             <argument type="service" id="kematjaya.sale_repo" />
             <argument type="service" id="kematjaya.stock_service" />
+            <argument type="service" id="kematjaya.stock_card_service" />
         </service> 
         <service id="kematjaya.sale_service" alias="Kematjaya\SaleBundle\Service\SaleService" public="true"></service>
         
