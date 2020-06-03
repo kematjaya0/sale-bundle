@@ -22,7 +22,9 @@
         </service>
         <service id="kematjaya.sale_event_subscriber" alias="Kematjaya\SaleBundle\EventSubscriber\SaleEventSubscriber" public="true"/>
         
-        <service id="Kematjaya\SaleBundle\EventSubscriber\SaleItemFormEventSubscriber" class="Kematjaya\SaleBundle\EventSubscriber\SaleItemFormEventSubscriber"></service>
+        <service id="Kematjaya\SaleBundle\EventSubscriber\SaleItemFormEventSubscriber" class="Kematjaya\SaleBundle\EventSubscriber\SaleItemFormEventSubscriber">
+            <argument type="service" id="translator" />
+        </service>
         <service id="Kematjaya\SaleBundle\EventSubscriber\SaleFormEventSubscriber" class="Kematjaya\SaleBundle\EventSubscriber\SaleFormEventSubscriber">
             <argument type="service" id="property_info" />
             <argument type="service" id="security.token_storage" />
