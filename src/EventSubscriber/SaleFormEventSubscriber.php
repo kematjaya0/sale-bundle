@@ -53,7 +53,7 @@ class SaleFormEventSubscriber implements EventSubscriberInterface
                 ->add('created_by', HiddenType::class)
                 ->add('created_at', HiddenDateTimeType::class);
             
-            $typePrice = ['sub_total', 'tax', 'total'];
+            $typePrice = ['sub_total', 'tax', 'discount', 'payment', 'payment_change', 'total'];
             foreach($typePrice as $name)
             {
                 $attr = $form->get($name)->getConfig()->getOption('attr');

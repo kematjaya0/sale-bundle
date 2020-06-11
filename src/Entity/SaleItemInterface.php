@@ -29,14 +29,18 @@ interface SaleItemInterface
 
     public function setSalePrice(float $sale_price): self;
 
-    public function getTax(): ?float;
-
-    public function setTax(float $tax): self;
-
     public function getSubTotal(): ?float;
 
     public function setSubTotal(float $sub_total): self;
 
+    public function getTax(): ?float;
+
+    public function setTax(float $tax): self;
+    
+    public function getDiscount(): ?float;
+
+    public function setDiscount(float $discount): self;
+    
     public function getTotal(): ?float;
 
     public function setTotal(float $total): self;

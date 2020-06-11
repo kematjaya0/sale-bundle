@@ -13,6 +13,10 @@ interface SaleInterface
 
     public function setCode(string $code): self;
 
+    public function getCustomer(): ?CustomerInterface;
+
+    public function setCustomer(?CustomerInterface $customer): self;
+    
     public function getCreatedAt(): ?\DateTimeInterface;
 
     public function setCreatedAt(\DateTimeInterface $created_at): self;
@@ -21,25 +25,35 @@ interface SaleInterface
 
     public function setCreatedBy(string $created_by): self;
 
-    public function getTotal(): ?float;
-
-    public function setTotal(float $total): self;
-
     public function getSubTotal(): ?float;
 
     public function setSubTotal(float $sub_total): self;
+    
+    public function getDiscount(): ?float;
+
+    public function setDiscount(float $discount): self;
 
     public function getTax(): ?float;
 
     public function setTax(float $tax): self;
+    
+    public function getTotal(): ?float;
 
+    public function setTotal(float $total): self;
+
+    public function getPayment(): ?float;
+
+    public function setPayment(float $payment): self;
+    
+    public function getPaymentChange(): ?float;
+
+    public function setPaymentChange(float $payment_change): self;
+    
     public function getIsLocked(): ?bool;
 
     public function setIsLocked(bool $is_locked): self;
 
-    public function getCustomer(): ?CustomerInterface;
-
-    public function setCustomer(?CustomerInterface $customer): self;
+    
     
     public function getSaleItems(): Collection;
 }

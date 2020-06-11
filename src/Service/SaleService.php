@@ -32,10 +32,13 @@ class SaleService
             $subTotal = 0;
             foreach($entity->getSaleItems() as $saleItem)
             {
-                
                 if($saleItem instanceof SaleItemInterface)
                 {
-                    $subTotal += $saleItem->getTotal();
+                    $itemSubTotal = $saleItem->getQuantity() * $saleItem->getSalePrice();
+                    $total = ($itemSubTotal + $saleItem->getTax()) - $saleItem->getDiscount();
+                    $saleItem->setTotal($total);
+                    $subTotal += $total;
+                    
                     $item = $this->stockService->getStock($saleItem->getItem(), $saleItem->getQuantity());
                     if($saleItem instanceof ClientStockCardInterface) 
                     {
@@ -44,11 +47,11 @@ class SaleService
                 }
             }
             
-            $total = $subTotal + $entity->getTax();
-            
+            $total = ($subTotal + $entity->getTax()) - $entity->getDiscount();
+            $paymentChange = $entity->getPayment() - $total;
             $entity->setSubTotal($subTotal);
             $entity->setTotal($total);
-            
+            $entity->setPaymentChange($paymentChange);
         }
         
         $this->saleRepo->save($entity);
