@@ -57,7 +57,7 @@ class SaleFormEventSubscriber implements EventSubscriberInterface
             foreach($typePrice as $name)
             {
                 $attr = $form->get($name)->getConfig()->getOption('attr');
-                $attr['readonly'] = true;
+                //$attr['readonly'] = true;
                 $attr['class'] = (isset($attr['class'])) ? $attr['class'] .' priceformat': 'priceformat';
                 
                 $form->add($name, PriceType::class, ['attr' => $attr, 'label' => $name]);

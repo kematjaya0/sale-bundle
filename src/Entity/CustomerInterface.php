@@ -2,6 +2,7 @@
 
 namespace Kematjaya\SaleBundle\Entity;
 
+use Doctrine\Common\Collections\Collection;
 /**
  * @author Nur Hidayatullah <kematjaya0@gmail.com>
  */
@@ -26,4 +27,6 @@ interface CustomerInterface
     public function getMail(): ?string;
 
     public function setMail(?string $mail): self;
+    
+    public function getSales(): Collection;
 }
