@@ -3,6 +3,7 @@
 namespace Kematjaya\SaleBundle\EventSubscriber;
 
 use Kematjaya\SaleBundle\Entity\SaleItemInterface;
+use Kematjaya\ItemPack\Lib\Price\Repo\PriceLogRepoInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormError;
@@ -16,9 +17,16 @@ class SaleItemFormEventSubscriber implements EventSubscriberInterface
 {
     private $translator;
     
-    public function __construct(TranslatorInterface $translator) 
+    /**
+     *
+     * @var PriceLogRepoInterface 
+     */
+    private $priceLogRepo;
+    
+    public function __construct(TranslatorInterface $translator, PriceLogRepoInterface $priceLogRepo) 
     {
         $this->translator = $translator;
+        $this->priceLogRepo = $priceLogRepo;
     }
     
     public static function getSubscribedEvents()
@@ -53,6 +61,12 @@ class SaleItemFormEventSubscriber implements EventSubscriberInterface
                 return;
             }
             
+            if($this->priceLogRepo->getNewPriceLogByItem($item))
+            {
+                $form->get('sale_price')->addError(new FormError($this->translator->trans('found_change_price')));
+                return;
+            }
+            
             if($item->getLastPrice() <= 0)
             {
                 $form->get('sale_price')->addError(new FormError($this->translator->trans('sale_price_null')));
@@ -62,6 +76,7 @@ class SaleItemFormEventSubscriber implements EventSubscriberInterface
             if($item->getLastPrice() <= $item->getPrincipalPrice())
             {
                 $form->get('sale_price')->addError(new FormError($this->translator->trans('sale_price_less_than_principal_price')));
+                return;
             }
         }
     }

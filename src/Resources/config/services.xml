@@ -24,6 +24,7 @@
         
         <service id="Kematjaya\SaleBundle\EventSubscriber\SaleItemFormEventSubscriber" class="Kematjaya\SaleBundle\EventSubscriber\SaleItemFormEventSubscriber">
             <argument type="service" id="translator" />
+            <argument type="service" id="Kematjaya\ItemPack\Lib\Price\Repo\PriceLogRepoInterface" />
         </service>
         <service id="Kematjaya\SaleBundle\EventSubscriber\SaleFormEventSubscriber" class="Kematjaya\SaleBundle\EventSubscriber\SaleFormEventSubscriber">
             <argument type="service" id="property_info" />
