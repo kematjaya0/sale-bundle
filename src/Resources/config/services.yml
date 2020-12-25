@@ -6,3 +6,19 @@ services:
         
     Kematjaya\SaleBundle\Service\SaleServiceInterface:
         class: Kematjaya\SaleBundle\Service\SaleService
+        
+    Kematjaya\SaleBundle\EventListener\SaleEventListener:
+        class: Kematjaya\SaleBundle\EventListener\SaleEventListener
+        tags: 
+            - { name: doctrine.event_listener, event: onFlush }
+            
+    Kematjaya\SaleBundle\EventSubscriber\SaleFormEventSubscriber:
+        class: Kematjaya\SaleBundle\EventSubscriber\SaleFormEventSubscriber
+        
+    Kematjaya\SaleBundle\EventSubscriber\SaleItemFormEventSubscriber:
+        class: Kematjaya\SaleBundle\EventSubscriber\SaleItemFormEventSubscriber
+        
+    Kematjaya\SaleBundle\Fixtures\CustomerFixtures:
+        class: Kematjaya\SaleBundle\Fixtures\CustomerFixtures
+        tags: 
+            - doctrine.fixture.orm

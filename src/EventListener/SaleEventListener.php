@@ -1,32 +1,26 @@
 <?php
 
-namespace Kematjaya\SaleBundle\EventSubscriber;
+namespace Kematjaya\SaleBundle\EventListener;
 
+use Kematjaya\SaleBundle\Service\SaleServiceInterface;
 use Kematjaya\SaleBundle\Entity\SaleInterface;
-use Kematjaya\SaleBundle\Service\SaleService;
 use Doctrine\ORM\Event\OnFlushEventArgs;
-use Doctrine\ORM\Events;
-use Doctrine\Common\EventSubscriber;
-
 
 /**
- * @deprecated since version 2.2, use Kematjaya\SaleBundle\EventListener\SaleEventListener instead
  * @author Nur Hidayatullah <kematjaya0@gmail.com>
  */
-class SaleEventSubscriber implements EventSubscriber
+class SaleEventListener 
 {
     
+    /**
+     * 
+     * @var SaleServiceInterface
+     */
     private $saleService;
     
-    public function __construct(SaleService $saleService) 
+    public function __construct(SaleServiceInterface $saleService) 
     {
         $this->saleService = $saleService;
-    }
-    
-    public function getSubscribedEvents() {
-        return [
-            Events::onFlush
-        ];
     }
     
     public function onFlush(OnFlushEventArgs $eventArgs)
@@ -36,23 +30,29 @@ class SaleEventSubscriber implements EventSubscriber
         
         foreach ($uow->getScheduledEntityInsertions() as $entity) 
         {
-            if($entity instanceof SaleInterface) {
-                $this->updateSale($entity);
+            if(!$entity instanceof SaleInterface) {
+                continue;
             }
+            
+            $this->updateSale($entity);
         }
         
         foreach ($uow->getScheduledEntityUpdates() as $entity) 
         {
-            if($entity instanceof SaleInterface) {
-                $this->updateSale($entity);
+            if(!$entity instanceof SaleInterface) {
+                continue;
             }
+            
+            $this->updateSale($entity);
         }
         
         foreach($uow->getScheduledEntityDeletions() as $entity) 
         {
-            if($entity instanceof SaleInterface) {
-                $this->updateSale($entity);
+            if(!$entity instanceof SaleInterface) {
+                continue;
             }
+            
+            $this->updateSale($entity);
         }
     }
     

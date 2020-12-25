@@ -5,12 +5,13 @@ namespace Kematjaya\SaleBundle\Fixtures;
 use Kematjaya\SaleBundle\Repo\CustomerRepoInterface;
 use Faker\Factory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 
 /**
  * @author Nur Hidayatullah <kematjaya0@gmail.com>
  */
-class CustomerFixtures extends Fixture 
+class CustomerFixtures extends Fixture implements FixtureGroupInterface
 {
     
     private $customerRepo;
@@ -39,5 +40,12 @@ class CustomerFixtures extends Fixture
         }
         
         $manager->flush();
+    }
+    
+    public static function getGroups(): array
+    {
+        return [
+            'kmj-sale'
+        ];
     }
 }

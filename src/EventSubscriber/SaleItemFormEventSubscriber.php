@@ -7,19 +7,12 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @author Nur Hidayatullah <kematjaya0@gmail.com>
  */
 class SaleItemFormEventSubscriber implements EventSubscriberInterface
 {
-    private $translator;
-    
-    public function __construct(TranslatorInterface $translator) 
-    {
-        $this->translator = $translator;
-    }
     
     public static function getSubscribedEvents()
     {
@@ -43,26 +36,25 @@ class SaleItemFormEventSubscriber implements EventSubscriberInterface
     public function postSubmit(FormEvent $event)
     {
         $data = $event->getData();
-        if($data instanceof SaleItemInterface)
-        {
-            $item = $data->getItem();
-            $form = $event->getForm();
-            if($item->getLastStock() < $data->getQuantity())
-            {
-                $form->get('quantity')->addError(new FormError($this->translator->trans('stock_tidak_cukup').', Max: '. $item->getLastStock()));
-                return;
-            }
-            
-            if($item->getLastPrice() <= 0)
-            {
-                $form->get('sale_price')->addError(new FormError($this->translator->trans('sale_price_null')));
-                return;
-            }
-            
-            if($item->getLastPrice() <= $item->getPrincipalPrice())
-            {
-                $form->get('sale_price')->addError(new FormError($this->translator->trans('sale_price_less_than_principal_price')));
-            }
+        if(!$data instanceof SaleItemInterface) {
+            return;
+        }
+        
+        $item = $data->getItem();
+        $form = $event->getForm();
+        if($item->getLastStock() < $data->getQuantity()) {
+            $form->get('quantity')->addError(new FormError(sprintf('not sufficient stock for product %s, available: %s', $item->getName(), $item->getLastStock())));
+            return;
+        }
+
+        if($item->getLastPrice() <= 0) {
+            $form->get('sale_price')->addError(new FormError(sprintf('price not set for item %s', $item->getName())));
+            return;
+        }
+
+        if($item->getLastPrice() <= $item->getPrincipalPrice()) {
+            $form->get('sale_price')->addError(new FormError(sprintf('sale price (%s) less than principal price (%s), please contact administrator.', $item->getLastPrice(), $item->getPrincipalPrice())));
+            return;
         }
     }
 }
