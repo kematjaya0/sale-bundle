@@ -87,8 +87,11 @@ class SaleService implements SaleServiceInterface
     {
         $subTotal = $this->countSubTotal($entity);
         
-        $total = ($subTotal + $entity->getTax()) - $entity->getDiscount();
-        $paymentChange = $entity->getPayment() - $total;
+        $tax        = null !== $entity->getTax() ? $entity->getTax() : 0;
+        $discount   = null !== $entity->getDiscount() ? $entity->getDiscount() : 0;
+        $payment    = null !== $entity->getPayment() ? $entity->getPayment() : 0;
+        $total      = ($subTotal + $tax) - $discount;
+        $paymentChange = $payment - $total;
         
         $entity->setSubTotal($subTotal);
         $entity->setTotal($total);
