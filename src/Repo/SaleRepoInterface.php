@@ -3,11 +3,11 @@
 namespace Kematjaya\SaleBundle\Repo;
 
 use Kematjaya\SaleBundle\Entity\SaleInterface;
-use Doctrine\Common\Persistence\ObjectRepository;
+
 /**
  * @author Nur Hidayatullah <kematjaya0@gmail.com>
  */
-interface SaleRepoInterface extends ObjectRepository 
+interface SaleRepoInterface
 {
     public function createSale():SaleInterface;
     
