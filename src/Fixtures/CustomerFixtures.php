@@ -3,7 +3,6 @@
 namespace Kematjaya\SaleBundle\Fixtures;
 
 use Kematjaya\SaleBundle\Repo\CustomerRepoInterface;
-use Faker\Factory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
@@ -25,15 +24,13 @@ class CustomerFixtures extends Fixture implements FixtureGroupInterface
     
     public function load(ObjectManager $manager)
     {
-        for($i = 1; $i <=10; $i++)
-        {
-            $faker = Factory::create();
+        for ($i = 1; $i <=10; $i++) {
             $customer = $this->customerRepo->createCustomer();
-            $customer->setCode($faker->creditCardNumber)
-                    ->setName($faker->name)
-                    ->setAddress($faker->address)
-                    ->setPhone($faker->phoneNumber)
-                    ->setMail($faker->email);
+            $customer->setCode(rand())
+                    ->setName("Customer " . $i)
+                    ->setAddress("Jl xxx No 17")
+                    ->setPhone("0856465648" . $i)
+                    ->setMail(sprintf("test%s@gmail.com", $i));
             
             $manager->persist($customer);
             $this->setReference(self::CUSTOMER_REFERENCE, $customer);
