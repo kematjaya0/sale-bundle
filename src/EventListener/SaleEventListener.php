@@ -43,6 +43,12 @@ class SaleEventListener
                 continue;
             }
             
+            $changeSet = $uow->getEntityChangeSet($entity);
+            if (!array_key_exists('is_locked', $changeSet)) {
+                
+                continue;
+            }
+            
             $this->updateSale($entity);
         }
         
