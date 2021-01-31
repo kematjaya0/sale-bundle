@@ -1,0 +1,33 @@
+framework:
+    test: true
+    
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+        
+    kematjaya.sale_service:
+        alias: Kematjaya\SaleBundle\Service\SaleServiceInterface
+        public: true
+    
+    Kematjaya\SaleBundle\Repo\SaleRepoInterface:
+        class: Kematjaya\SaleBundle\Tests\Repository\SaleRepository
+        
+    Kematjaya\SaleBundle\Repo\SaleItemRepoInterface:
+        class: Kematjaya\SaleBundle\Tests\Repository\SaleItemRepository
+        
+    Kematjaya\ItemPack\Lib\Item\Repo\ItemRepoInterface:
+        class: Kematjaya\SaleBundle\Tests\Repository\ItemRepository
+            
+    Kematjaya\ItemPack\Lib\Stock\Repo\StockCardRepoInterface:
+        class: Kematjaya\SaleBundle\Tests\Repository\StockCardRepository
+            
+    Kematjaya\ItemPack\Lib\ItemPackaging\Repo\ItemPackageRepoInterface:
+        class: Kematjaya\SaleBundle\Tests\Repository\ItemPackageRepository
+            
+    Kematjaya\ItemPack\Lib\Price\Repo\PriceLogRepoInterface:
+        class: Kematjaya\SaleBundle\Tests\Repository\PriceLogRepository
+        
+    Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface:
+        class: Kematjaya\SaleBundle\Tests\Model\TokenStorageTest
