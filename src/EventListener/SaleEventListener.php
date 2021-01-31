@@ -30,7 +30,7 @@ class SaleEventListener
         
         foreach ($uow->getScheduledEntityInsertions() as $entity) 
         {
-            if(!$entity instanceof SaleInterface) {
+            if (!$entity instanceof SaleInterface) {
                 continue;
             }
             
@@ -39,7 +39,7 @@ class SaleEventListener
         
         foreach ($uow->getScheduledEntityUpdates() as $entity) 
         {
-            if(!$entity instanceof SaleInterface) {
+            if (!$entity instanceof SaleInterface) {
                 continue;
             }
             
@@ -48,7 +48,7 @@ class SaleEventListener
         
         foreach($uow->getScheduledEntityDeletions() as $entity) 
         {
-            if(!$entity instanceof SaleInterface) {
+            if (!$entity instanceof SaleInterface) {
                 continue;
             }
             

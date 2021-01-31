@@ -9,6 +9,7 @@ use Kematjaya\SaleBundle\Repo\SaleItemRepoInterface;
 use Kematjaya\ItemPack\Service\StockServiceInterface;
 use Kematjaya\ItemPack\Service\StockCardServiceInterface;
 use Kematjaya\ItemPack\Lib\Stock\Entity\ClientStockCardInterface;
+
 /**
  * @author Nur Hidayatullah <kematjaya0@gmail.com>
  */
@@ -48,7 +49,7 @@ class SaleService implements SaleServiceInterface
     
     public function update(SaleInterface $entity): SaleInterface
     {
-        if(!$entity->getIsLocked()) {
+        if (!$entity->getIsLocked()) {
             return $entity;
         }
             
@@ -62,8 +63,8 @@ class SaleService implements SaleServiceInterface
     public function countSubTotal(SaleInterface $entity):float
     {
         $subTotal = 0;
-        foreach($entity->getSaleItems() as $saleItem) {
-            if(!$saleItem instanceof SaleItemInterface) {
+        foreach ($entity->getSaleItems() as $saleItem) {
+            if (!$saleItem instanceof SaleItemInterface) {
                 continue;
             }
             
@@ -75,7 +76,7 @@ class SaleService implements SaleServiceInterface
             $subTotal += $total;
 
             $item = $this->stockService->getStock($saleItem->getItem(), $saleItem->getQuantity());
-            if($saleItem instanceof ClientStockCardInterface) {
+            if ($saleItem instanceof ClientStockCardInterface) {
                 $this->stockCardService->insertStockCard($item, $saleItem);
             }
         }
